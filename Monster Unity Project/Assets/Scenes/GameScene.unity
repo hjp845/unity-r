@@ -2411,10 +2411,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4ec9dee89cd4144db5e009b42875edc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  respawnSpot1: {fileID: 462749676}
-  respawnSpot2: {fileID: 1637871532}
-  respawnSpot3: {fileID: 1182794621}
-  respawnSpot4: {fileID: 610406289}
+  respawnSpotList:
+  - {fileID: 462749676}
+  - {fileID: 1637871532}
+  - {fileID: 1182794621}
+  - {fileID: 610406289}
   monster1Prefab: {fileID: 1794011219963334, guid: cbb3074209fed1a41b4510134ddabac9,
     type: 2}
   monster2Prefab: {fileID: 1390617561524512, guid: ec9065c032f61264b9f2997627419b0e,
