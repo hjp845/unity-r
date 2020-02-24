@@ -24,7 +24,6 @@ public class CharacterBehavior : MonoBehaviour {
         if(gameObject.name.Contains("Character 1"))
         {
             bulletObjectPool = GameObject.Find("Bullet1 Object Pool");
-            Debug.Log("연결완료");
         }
         else if(gameObject.name.Contains("Character 2"))
         {

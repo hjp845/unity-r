@@ -7,7 +7,6 @@ public class BulletBehavior : MonoBehaviour {
     public BulletStat bulletStat { get; set; }
     public GameObject character;
 
-    public float spawnTime;
     public float activeTime = 3.0f;
 
     public BulletBehavior()
@@ -18,22 +17,23 @@ public class BulletBehavior : MonoBehaviour {
     public void Spawn()
     {
         gameObject.SetActive(true);
-        spawnTime = Time.time;
     }
 
-	void Start () {
-        Spawn();
-	}
+    // 이 객체가 활성화 되었을 때, 자동으로 호출되는 유니티 내장함수
+    // 현재 총알은 오브젝트풀링이 적용된 상태. 그래서 Start에 넣는것보다 OnEable에 넣는것이 옳음
+    private void OnEnable()
+    {
+        StartCoroutine(BulletInactive(activeTime));
+    }
+
+    IEnumerator BulletInactive(float activeTime)
+    {
+        yield return new WaitForSeconds(activeTime);
+        gameObject.SetActive(false);
+    }
 	
 	void Update () {
-        if(Time.time - spawnTime >= activeTime)
-        {
-            gameObject.SetActive(false);
-        }
-        else
-        {
-            transform.Translate(Vector2.right * bulletStat.speed * Time.deltaTime);
-        }
+        transform.Translate(Vector2.right * bulletStat.speed * Time.deltaTime);
 	}
 
     private void OnTriggerEnter2D(Collider2D other)
