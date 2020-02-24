@@ -5,6 +5,18 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager instance { get; set; }
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        // 다른 씬이 불려도 삭제되지않고 똑같은게 쓰이도록
+        DontDestroyOnLoad(gameObject);
+    }
+
     public Text seedText;
     public Text roundText;
     public Text roundStartText;
