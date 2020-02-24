@@ -11,21 +11,38 @@ public class CharacterBehavior : MonoBehaviour {
     public GameObject bullet;
     private Animator animator;
     private AudioSource audioSource;
+
+    private GameObject bulletObjectPool;
+    private ObjectPooler bulletObjectPooler;
     
 	void Start () {
         characterStat = gameObject.GetComponent<CharacterStat>();
         gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
         animator = gameObject.GetComponent<Animator>();
         audioSource = gameObject.GetComponent<AudioSource>();
+        // gameObject 는 자기자신이다.
+        if(gameObject.name.Contains("Character 1"))
+        {
+            bulletObjectPool = GameObject.Find("Bullet1 Object Pool");
+            Debug.Log("연결완료");
+        }
+        else if(gameObject.name.Contains("Character 2"))
+        {
+            bulletObjectPool = GameObject.Find("Bullet2 Object Pool");
+        }
+        bulletObjectPooler = bulletObjectPool.GetComponent<ObjectPooler>();
     }
 
     public void attack(int damage)
     {
+        GameObject bullet = bulletObjectPooler.getObject();
+        if (bullet == null) return;
+        bullet.transform.position = gameObject.transform.position;
+        bullet.GetComponent<BulletBehavior>().bulletStat 
+            = new BulletStat(10 + characterStat.level * 3, characterStat.damage);
         animator.SetTrigger("Attack");
         audioSource.PlayOneShot(audioSource.clip);
-        GameObject currentBullet = Instantiate(bullet, transform.position, Quaternion.identity);
-        currentBullet.GetComponent<BulletBehavior>().bulletStat 
-            = new BulletStat(10 + characterStat.level * 3, characterStat.damage);
+        bullet.GetComponent<BulletBehavior>().Spawn();
     }
 	
 	void Update () {
